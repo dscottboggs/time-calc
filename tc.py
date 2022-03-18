@@ -74,7 +74,6 @@ class Time:
 
 def run(args: List[str]):
     cumulation = None
-    value = None
     operator = None
     global debug
     for arg in args:
@@ -83,17 +82,14 @@ def run(args: List[str]):
             continue
         if time := Time.parse(arg):
             if cumulation is None:
-                cumulation = value = time
+                cumulation = time
             elif operator is None:
-                value = time
+                print("syntax error -- missing operator")
+                debug(f'{cumulation=}; {operator=}')
+                exit(1)
             else:
-                if value is None:
-                    print("syntax error")
-                    debug(f'{cumulation=}; {operator=}; {value=}')
-                    exit(1)
-                cumulation = operator(value, time)
+                cumulation = operator(cumulation, time)
                 operator = None
-                value = None
         elif _operator := OPERATORS.get(arg.strip()):
             operator = _operator
         else:

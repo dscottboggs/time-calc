@@ -29,3 +29,7 @@ def test_run():
     assert result == Time(minutes=2, seconds=30)
     result = run("1m30s - 1m".split())
     assert result == Time(seconds=30)
+
+def test_run_chain():
+    result =  run("1m30s - 1m + 30s".split())
+    assert result == Time(minutes=1)
